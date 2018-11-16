@@ -109,11 +109,11 @@ if ( opt$plot ) {
 		opt$plot_scatter = FALSE
 	}
 	
-	if ( !file.exists("glist-hg19") ) {
-		cat( "WARNING: glist-hg19 file listing gene locations (with header: CHR P0 P1 ID) needed for locus plots\n" , file=stderr() )
+	if ( !file.exists("/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg19") ) {
+		cat( "WARNING: /jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg19 file listing gene locations (with header: CHR P0 P1 ID) needed for locus plots\n" , file=stderr() )
 		glist = matrix(nrow=0,ncol=4)
 	} else {
-		glist = read.table("glist-hg19",as.is=T)
+		glist = read.table("/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg19",as.is=T)
 		glist = glist[glist[,1] == chr,]
 	}
 	colnames(glist) = c("CHR","P0","P1","ID")	
