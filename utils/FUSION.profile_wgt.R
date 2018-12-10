@@ -26,6 +26,7 @@ mat.mod.pv[i,] = cv.performance[2,m]
 
 write.table( 
 cbind( names , mat.snps , format(mat.hsq,digits=2) , format(mat.hsqpv,digits=2) , format(round(mat.mod.rsq,3),digits=3) , format(mat.mod.pv,digits=2) ),
+file = 'wglist_summary.txt',
 quote=F,
 col.names=colnames,
 row.names=F,sep='\t')
