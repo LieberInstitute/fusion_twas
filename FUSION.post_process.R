@@ -81,7 +81,9 @@ option_list = list(
   make_option("--chr", action="store", default=NA, type='character',
               help="Chromosome to analyze, currently only single chromosome analyses are performed [required]"),
   make_option("--verbose", action="store", default=1, type="integer",
-              help="How much chatter to print: 0=nothing; 1=minimal; 2=all [default: %default]")                              
+              help="How much chatter to print: 0=nothing; 1=minimal; 2=all [default: %default]"),
+  make_option("--glist_path", action="store", default='/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38', type='character',
+              help="Path to glist (original is glist-hg19, default at JHPCE is glist-hg38) [required]")                              
 )
 
 opt = parse_args(OptionParser(option_list=option_list))
@@ -109,11 +111,11 @@ if ( opt$plot ) {
 		opt$plot_scatter = FALSE
 	}
 	
-	if ( !file.exists("/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg19") ) {
-		cat( "WARNING: /jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg19 file listing gene locations (with header: CHR P0 P1 ID) needed for locus plots\n" , file=stderr() )
+	if ( !file.exists(opt$glist_path) ) {
+		cat( paste("WARNING:", opt$glist_path, "file listing gene locations (with header: CHR P0 P1 ID) needed for locus plots\n") , file=stderr() )
 		glist = matrix(nrow=0,ncol=4)
 	} else {
-		glist = read.table("/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg19",as.is=T)
+		glist = read.table(opt$glist_path,as.is=T)
 		glist = glist[glist[,1] == chr,]
 	}
 	colnames(glist) = c("CHR","P0","P1","ID")	
