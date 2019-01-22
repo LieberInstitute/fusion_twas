@@ -87,6 +87,41 @@ option_list = list(
 )
 
 opt = parse_args(OptionParser(option_list=option_list))
+
+## Debug 
+if(FALSE) {
+    #module load fusion_twas/github
+    #R
+    library('plink2R')
+    library("optparse")
+    library("RColorBrewer")
+    opt <- list(
+        'input' = 'test_PGC2.SCZ.22.dat',
+        'out' = 'test_PGC2.SCZ.22.analysis',     
+        'sumstats' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/pgc_scz2_sumstats/PGC2.SCZ.sumstats_hg38_ourname',
+        'ref_ld_chr' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/reference_hg38/LDREF_hg38/1000G.EUR.',
+        'minp_input' = 1.0,
+        'max_r2' = 0.90,
+        'min_r2' = 0.05,
+        'locus_win' = 100000,
+        'max_cz_increase' = 1.96,
+        'plot' = TRUE,
+        'plot_legend' = NA,
+        'plot_corr' = FALSE,
+        'plot_individual' = FALSE,
+        'plot_eqtl' = FALSE,
+        'plot_scatter'= FALSE,
+        'report' = FALSE,
+        'omnibus'= FALSE,
+        'omnibus_corr' = NA,
+        'ldsc' = FALSE,
+        'save_loci' = FALSE,
+        'chr' = '22',
+        'verbose' = 2,
+        'glist_path' = '/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38'
+    )
+}
+
 options( digits = 3 )
 
 # --- TODO
@@ -413,7 +448,9 @@ for ( i in 1:length(cons.loc.starts) ) {
 	cond.z[ !ge.keep ] = 0
 	joint.keep = rep(F,length(ge_g.z))
 
-	while ( sum(cond.z^2 > zthresh^2) != 0 ) {
+    initiate_flag <- TRUE
+	while ( sum(cond.z^2 > zthresh^2) != 0 || initiate_flag) {
+        initiate_flag <- FALSE
 		# add most conditionally significant feature 
 		joint.keep[ which.max(cond.z^2) ] = T
 		cur.dinv = solve(ge_g.ld[joint.keep,joint.keep])
