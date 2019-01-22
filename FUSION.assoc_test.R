@@ -38,6 +38,32 @@ option_list = list(
 
 opt = parse_args(OptionParser(option_list=option_list))
 
+## Debug 
+if(FALSE) {
+    #module load fusion_twas/github
+    #R
+    library('plink2R')
+    library("optparse")
+    opt <- list(
+        'sumstats' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/pgc_scz2_sumstats/PGC2.SCZ.sumstats_hg38_ourname',
+        'out' = 'test_PGC2.SCZ.22.dat',
+        'weights' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/HIPPO/gene/HIPPO_gene.pos',
+        'weights_dir' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/HIPPO/gene',
+        'ref_ld_chr' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/reference_hg38/LDREF_hg38/1000G.EUR.',
+        'force_model' = NA,
+        'caviar' = FALSE,
+        'jlim' = FALSE,
+        'max_impute' = 0.5,
+        'min_r2pred' = 0.7,
+        'perm' = 0,
+        'perm_minp' = 0.05,
+        'chr' = '22',
+        'coloc_P' = NA,
+        'GWASN' = NA,
+        'PANELN' = NA
+    )
+}
+
 allele.qc = function(a1,a2,ref1,ref2) {
         a1 = toupper(a1)
         a2 = toupper(a2)
@@ -151,10 +177,18 @@ FAIL.ctr = 0
 
 ## For each wgt file:
 for ( w in 1:nrow(wgtlist) ) {
+    # w <- 1
 	#cat( unlist(wgtlist[w,]) , '\n' )
 	# Load weights
 	wgt.file = paste(opt$weights_dir,"/",wgtlist$WGT[w],sep='')
-	load(wgt.file)
+	load(wgt.file) #, verbose = TRUE)
+    # Loading objects:
+    #   wgt.matrix
+    #   snps
+    #   cv.performance
+    #   hsq
+    #   hsq.pv
+    #   N.tot
 	# Remove NAs (these should not be here)
 	wgt.matrix[is.na(wgt.matrix)] = 0
 	
