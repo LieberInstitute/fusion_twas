@@ -120,6 +120,33 @@ if(FALSE) {
         'verbose' = 2,
         'glist_path' = '/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38'
     )
+    
+    ## Debug chr18
+    opt <- list(
+        'input' = 'test_psycm/test_psycm.18.dat',
+        'out' = 'test_psycm/test_psycm.18.analysis',     
+        'sumstats' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/psycm/clozuk_pgc2.meta.reformatted.sumstats_hg38_ourname',
+        'ref_ld_chr' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/reference_hg38/LDREF_hg38/1000G.EUR.',
+        'minp_input' = 1.0,
+        'max_r2' = 0.90,
+        'min_r2' = 0.05,
+        'locus_win' = 100000,
+        'max_cz_increase' = 1.96,
+        'plot' = TRUE,
+        'plot_legend' = NA,
+        'plot_corr' = TRUE,
+        'plot_individual' = TRUE,
+        'plot_eqtl' = TRUE,
+        'plot_scatter'= FALSE,
+        'report' = FALSE,
+        'omnibus'= FALSE,
+        'omnibus_corr' = NA,
+        'ldsc' = FALSE,
+        'save_loci' = FALSE,
+        'chr' = '18',
+        'verbose' = 2,
+        'glist_path' = '/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38'
+    )
 }
 
 options( digits = 3 )
@@ -324,7 +351,9 @@ cond.z = ge_g.z
 ge.keep = rep(F,length(ge_g.z))
 ge.drop = rep(F,length(ge_g.z))
 
-while ( sum(cond.z^2 > zthresh^2) != 0 ) {
+initiate_flag <- TRUE
+while ( sum(cond.z^2 > zthresh^2) != 0 || initiate_flag) {
+    initiate_flag <- FALSE
 	# add most conditionally significant feature 
 	ge.keep[ which.max(cond.z^2) ] = T
 	if( opt$verbose > 1 ) cat( wgtlist$FILE[ which.max(cond.z^2) ] , " added to model with conditional Z-score of ", cond.z[which.max(cond.z^2)] , "\n" , sep='' , file=stderr() ) 
