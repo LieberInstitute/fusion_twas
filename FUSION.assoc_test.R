@@ -62,6 +62,28 @@ if(FALSE) {
         'GWASN' = NA,
         'PANELN' = NA
     )
+    
+    # Debug chr3
+    library('plink2R')
+    library("optparse")
+    opt <- list(
+        'sumstats' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/psycm/clozuk_pgc2.meta.reformatted.sumstats_hg38_ourname',
+        'out' = 'test_psycm/test_psycm.3.dat',
+        'weights' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/HIPPO/gene/HIPPO_gene.pos',
+        'weights_dir' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/HIPPO/gene',
+        'ref_ld_chr' = '/dcl01/lieber/ajaffe/lab/brainseq_phase2/twas/reference_hg38/LDREF_hg38/1000G.EUR.',
+        'force_model' = NA,
+        'caviar' = FALSE,
+        'jlim' = FALSE,
+        'max_impute' = 0.5,
+        'min_r2pred' = 0.7,
+        'perm' = 0,
+        'perm_minp' = 0.05,
+        'chr' = '3',
+        'coloc_P' = NA,
+        'GWASN' = NA,
+        'PANELN' = NA
+    )
 }
 
 allele.qc = function(a1,a2,ref1,ref2) {
@@ -96,7 +118,9 @@ allele.qc = function(a1,a2,ref1,ref2) {
 }
 
 # Load in summary stats
-sumstat = read.table(opt$sumstats,head=T,as.is=T)
+# sumstat = read.table(opt$sumstats,head=T,as.is=T)
+## Faster reading of the sumstats file
+sumstat <- as.data.frame(data.table::fread(opt$sumstats, nThread = 1))
 
 # Load in list of weights
 # TODO : TEST FOR NO HEADER HERE
