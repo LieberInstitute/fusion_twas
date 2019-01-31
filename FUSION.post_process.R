@@ -125,7 +125,8 @@ if(FALSE) {
         'save_loci' = FALSE,
         'chr' = '22',
         'verbose' = 2,
-        'glist_path' = '/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38'
+        'glist_path' = '/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38',
+        'zthresh' = FALSE
     )
 
     ## Debug chr18
@@ -152,7 +153,8 @@ if(FALSE) {
         'save_loci' = FALSE,
         'chr' = '18',
         'verbose' = 2,
-        'glist_path' = '/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38'
+        'glist_path' = '/jhpce/shared/jhpce/libd/fusion_twas/github/fusion_twas/glist-hg38',
+        'zthresh' = FALSE
     )
 }
 
