@@ -52,6 +52,7 @@ option_list = list(
 
 opt = parse_args(OptionParser(option_list=option_list))
 models = unique( c(unlist(strsplit(opt$models,',')),"top1") )
+stopifnot(all(models %in% c('blup', 'lasso', 'top1', 'enet', 'bslmm')))
 M = length(models)
 
 if ( opt$verbose == 2 ) {
